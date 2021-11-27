@@ -36,11 +36,15 @@ function helper(api, response, ans) {
     res.on('end', function () {
       // console.log('here3')
       try {
-      let x = JSON.parse(str)
-      ans.push(x)
-      let v1 = x["next_page"]
-      if (v1 && v1.length > 0 && v1.split('zendesk.com').length > 1){
-        helper(v1.split('zendesk.com')[1], response,ans)
+      let jsonValue = JSON.parse(str)
+      ans.push(jsonValue)
+
+      let nextPageValue = jsonValue["next_page"]
+      if (nextPageValue && nextPageValue.length > 0 && nextPageValue.split('zendesk.com').length > 1){
+
+        // getting all data as api returns 100 calues per call
+        
+        helper(nextPageValue.split('zendesk.com')[1], response,ans)
       } else {
         let obj = {tickets: []}
 
@@ -54,9 +58,6 @@ function helper(api, response, ans) {
       } catch(err) {
         return response.status(500).send('Api Response is not of type JSON')
       }
-
-
-
     })
   
   })
