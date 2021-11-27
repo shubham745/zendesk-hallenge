@@ -3,7 +3,7 @@
 In Config/Local.js
 Add username, password and host
 
-Note: client and server have separate servers
+Note: client and server have separate servers. Please Start both the servers.
 
 
 To start Client:
