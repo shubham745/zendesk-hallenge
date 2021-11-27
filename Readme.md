@@ -25,7 +25,7 @@ Client is in /Client folder(default Port 3000)
 
 Design Choices <br />
 
-W have kept frontend and backend separate. As ideally, we can have different teams working on them on different repos. They are in the same repo here, just for the convenience of submission. <br />
+We have kept frontend and backend separate. As ideally, we can have different teams working on them on different repos. They are in the same repo here, just for the convenience of submission. <br />
 
 
 Server Files  <br />
