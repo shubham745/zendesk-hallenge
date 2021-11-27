@@ -10,7 +10,7 @@ const response = {
 
 describe('test', () => {
   const req = {};
-  let emitter = new EventEmitter();
+  const emitter = new EventEmitter();
   emitter.end = jest.fn();
   let httpIncomingMessage = {
     on: jest.fn(),
