@@ -6,7 +6,7 @@
 /client/coverage
 /.pnp
 .pnp.js
-
+/client/build
 # /client/.pnp
 .pnp.js
 

@@ -43,7 +43,6 @@ function helper(api, response, ans) {
       if (nextPageValue && nextPageValue.length > 0 && nextPageValue.split('zendesk.com').length > 1){
 
         // getting all data as api returns 100 calues per call
-        
         helper(nextPageValue.split('zendesk.com')[1], response,ans)
       } else {
         let obj = {tickets: []}
@@ -56,6 +55,7 @@ function helper(api, response, ans) {
       }
       
       } catch(err) {
+        // Error handling. Incase the returned response is not a JSON
         return response.status(500).send('Api Response is not of type JSON')
       }
     })

@@ -44,14 +44,14 @@ describe('test', () => {
   
 
   it('should trigger data handler correctly', done => {
-    emitter1 = new EventEmitter();
-    httpIncomingMessage = emitter1;
+    emitterResponse = new EventEmitter();
+    httpIncomingMessage = emitterResponse;
     
     ticketsController.get(req, response);
 
-    emitter1.emit('data', '{');
-    emitter1.emit('data', '}');
-    emitter1.emit('end');
+    emitterResponse.emit('data', '{');
+    emitterResponse.emit('data', '}');
+    emitterResponse.emit('end');
     // emitter.emit('error', 'error message');
     // emitter.emit('error', 'error message');
     // expect(response.json).toHaveBeenCalled()
@@ -62,14 +62,14 @@ describe('test', () => {
   });
 
   it('non json ouput by tickets api', done => {
-    emitter1 = new EventEmitter();
-    httpIncomingMessage = emitter1;
+    emitterResponse = new EventEmitter();
+    httpIncomingMessage = emitterResponse;
     
     ticketsController.get(req, response);
     
-    emitter1.emit('data', 'asad');
-    emitter1.emit('data', '}');
-    emitter1.emit('end');
+    emitterResponse.emit('data', 'asad');
+    emitterResponse.emit('data', '}');
+    emitterResponse.emit('end');
     // emitter.emit('error', 'error message');
     // emitter.emit('error', 'error message');
     // expect(response.json).toHaveBeenCalled()
@@ -80,15 +80,15 @@ describe('test', () => {
   });
 
   it('json next_page json with next page', done => {
-    emitter1 = new EventEmitter();
-    httpIncomingMessage = emitter1;
+    emitterResponse = new EventEmitter();
+    httpIncomingMessage = emitterResponse;
     ticketsController.get(req, response);
     
-    emitter1.emit('data', '{\"next_page\":"api.zendesk.com/test1.ap1"');
-    emitter1.emit('data', '}');
-    emitter1.emit('end');
-    emitter1.emit('data', '{');
-    emitter1.emit('data', '}');
+    emitterResponse.emit('data', '{\"next_page\":"api.zendesk.com/test1.ap1"');
+    emitterResponse.emit('data', '}');
+    emitterResponse.emit('end');
+    emitterResponse.emit('data', '{');
+    emitterResponse.emit('data', '}');
     process.nextTick(() => {
       expect(response.json).toHaveBeenCalled()
       done()
@@ -96,15 +96,15 @@ describe('test', () => {
   });
 
   it('json next_page json with next page eroor', done => {
-    emitter1 = new EventEmitter();
-    httpIncomingMessage = emitter1;
+    emitterResponse = new EventEmitter();
+    httpIncomingMessage = emitterResponse;
     ticketsController.get(req, response);
     
-    emitter1.emit('data', '{\"next_page\":"am/test1.ap1"');
-    emitter1.emit('data', '}');
-    emitter1.emit('end');
-    emitter1.emit('data', '{');
-    emitter1.emit('data', '}');
+    emitterResponse.emit('data', '{\"next_page\":"am/test1.ap1"');
+    emitterResponse.emit('data', '}');
+    emitterResponse.emit('end');
+    emitterResponse.emit('data', '{');
+    emitterResponse.emit('data', '}');
     process.nextTick(() => {
       expect(response.json).toHaveBeenCalled()
       done()
