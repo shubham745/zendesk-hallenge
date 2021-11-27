@@ -17,19 +17,35 @@ export default class App extends React.Component {
     fetch('/v1/tickets')
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          loading: false,
-          data: data.tickets,
-          pagination: {
-            pageSize: 25,
-            total: data.tickets.length,
-            showSizeChanger:false,
-            position: ['topRight', 'bottomRight']
-            // 200 is mock data, you should read it from server
-            // total: data.totalCount,
-          },
-        })
-        // console.log('Success:', data);
+        if(data.tickets.length === 0 || data.tickets[0]== null) {
+          this.setState({
+            loading: false,
+            data: [],
+            error:true,
+            pagination: {
+              pageSize: 25,
+              total: 0,
+              showSizeChanger:false,
+              position: ['topRight', 'bottomRight']
+              // 200 is mock data, you should read it from server
+              // total: data.totalCount,
+            },
+          })
+        } else {
+          this.setState({
+            loading: false,
+            data: data.tickets,
+            pagination: {
+              pageSize: 25,
+              total: data.tickets.length,
+              showSizeChanger:false,
+              position: ['topRight', 'bottomRight']
+              // 200 is mock data, you should read it from server
+              // total: data.totalCount,
+            },
+          })
+        }
+        
       })
       .catch(err => {
         this.setState({

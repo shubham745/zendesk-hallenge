@@ -3,13 +3,13 @@ const config = require("../config/local.js").default;
 
 ticketsController = {
   get: (req, res) => {
-    let ans = []
+    let resultCombination = []
     
-    helper('/api/v2/tickets', res,ans)
+    helper('/api/v2/tickets', res, resultCombination)
   }
 }
 
-function helper(api, response, ans) {
+function helper(api, response, resultCombination) {
   const auth = 'Basic ' + Buffer.from(config.auth.username + ':' + config.auth.password).toString('base64');
   const options = {
     hostname: config.host,
@@ -37,29 +37,33 @@ function helper(api, response, ans) {
       // console.log('here3')
       try {
       let jsonValue = JSON.parse(str)
-      ans.push(jsonValue)
+      resultCombination.push(jsonValue)
 
       let nextPageValue = jsonValue["next_page"]
       if (nextPageValue && nextPageValue.length > 0 && nextPageValue.split('zendesk.com').length > 1){
 
         // getting all data as api returns 100 calues per call
-        helper(nextPageValue.split('zendesk.com')[1], response,ans)
+        helper(nextPageValue.split('zendesk.com')[1], response,resultCombination)
       } else {
         let obj = {tickets: []}
 
-        ans.forEach(elem => {
-          obj.tickets =  obj.tickets.concat(elem["tickets"])
+        resultCombination.forEach(result => {
+          if (result["error"]) {
+            throw new Error(result["error"])
+          }
+          
+          obj.tickets =  obj.tickets.concat(result["tickets"])
         })
         
         response.json(obj)
       }
       
       } catch(err) {
+        //console.error(err)
         // Error handling. Incase the returned response is not a JSON
-        return response.status(500).send('Api Response is not of type JSON')
+        return response.status(500).send(err.message)
       }
     })
-  
   })
 
   req.on('error', error => {

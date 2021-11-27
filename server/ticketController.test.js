@@ -111,5 +111,19 @@ describe('test', () => {
     });
   });
 
+  it('Api Fetch Returned Error', done => {
+    emitterResponse = new EventEmitter();
+    httpIncomingMessage = emitterResponse;
+    ticketsController.get(req, response);
+    
+    emitterResponse.emit('data', '{\"error\":"Authentication error"');
+    emitterResponse.emit('data', '}');
+    emitterResponse.emit('end');
+    process.nextTick(() => {
+      expect(response.send).toHaveBeenCalled()
+      done()
+    });
+  });
+
 });
 
